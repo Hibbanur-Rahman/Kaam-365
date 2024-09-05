@@ -1,10 +1,18 @@
-function App() {
+import { Routes,Route } from "react-router-dom";
+import SignIn from "./views/signin";
+import SignUp from "./views/signup";
+
+const App=()=> {
 
   return (
-    <>
-      <h1 className="text-4xl text-red-600">Kaam 365</h1>
-    </>
+    <div className="w-full">
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+    </div>
   )
 }
 
-export default App
+export default App;
