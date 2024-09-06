@@ -5,13 +5,7 @@ import languageIcon from "../assets/images/language-icon.svg";
 import Logo from "../assets/images/logo.svg";
 import { Link } from "react-router-dom";
 import { IoEyeSharp, IoEyeOff } from "react-icons/io5";
-import {
-  Button,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-} from "@material-tailwind/react";
+import { Dialog } from "@material-tailwind/react";
 import { CiSearch } from "react-icons/ci";
 import { BsCheck2 } from "react-icons/bs";
 
@@ -82,8 +76,10 @@ const SignIn = () => {
                   Email
                 </label>
                 <input
-                  type="text"
+                  type="email"
                   id="email"
+                  name="email"
+                  required
                   className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
                   placeholder="Enter email address"
                 />
@@ -96,8 +92,10 @@ const SignIn = () => {
                   <input
                     type={isPasswordShow ? "text" : "password"}
                     id="password"
+                    name="password"
                     className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
                     placeholder="Enter Password"
+                    required
                   />
                   {isPasswordShow ? (
                     <IoEyeOff
