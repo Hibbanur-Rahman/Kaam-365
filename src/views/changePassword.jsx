@@ -1,16 +1,18 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import LoginImg from "../assets/images/login-side-img.png";
 import { HiChevronLeft } from "react-icons/hi2";
 import languageIcon from "../assets/images/language-icon.svg";
 import Logo from "../assets/images/logo.svg";
-import { Link } from "react-router-dom";
 import { IoEyeSharp, IoEyeOff } from "react-icons/io5";
 import { Dialog } from "@material-tailwind/react";
 import { CiSearch } from "react-icons/ci";
 import { BsCheck2 } from "react-icons/bs";
 
 const ChangePassword = () => {
-  const [isPasswordShow, setIsPasswordShow] = useState(false);
+  const navigate = useNavigate();
+  const [isOldPasswordShow, setIsOldPasswordShow] = useState(false);
+  const [isNewPasswordShow, setIsNewPasswordShow] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(null); // Update this to store the selected language
   const language = [
@@ -40,9 +42,12 @@ const ChangePassword = () => {
 
   return (
     <div className="w-full flex justify-between p-3 h-[100vh] overflow-hidden">
-      <div className="md:w-7/12 w-full flex flex-col items-center h-[100vh] overflow-y-scroll scroll-smooth pb-8" style={{scrollbarWidth:'none'}}>
+      <div
+        className="md:w-7/12 w-full flex flex-col items-center h-[100vh] overflow-y-scroll scroll-smooth pb-8"
+        style={{ scrollbarWidth: "none" }}
+      >
         <div className="flex w-11/12 justify-between ">
-          <div className="rounded-full bg-white shadow-xl h-min w-min p-2 flex items-center justify-center cursor-pointer hover:bg-slate-50">
+          <div className="rounded-full bg-white shadow-xl h-min w-min p-2 flex items-center justify-center cursor-pointer hover:bg-slate-50" onClick={()=>navigate('/signin')}>
             <HiChevronLeft className="text-3xl" />
           </div>
           <div
@@ -59,7 +64,7 @@ const ChangePassword = () => {
 
         <div className="flex flex-col md:w-6/12 items-center md:mt-2 mt-8">
           <h1 className="text-2xl text-center font-semibold text-[#2A3980]">
-            Login to your Account
+            Change Password
           </h1>
           <p className="text-lg text-center font-medium mt-2">
             Don&apos;t worry,only you can see your personal data. No one else
@@ -71,67 +76,70 @@ const ChangePassword = () => {
           </div>
           <div className="flex w-full">
             <form className="w-full flex flex-col">
-              <div className="flex flex-col w-full mb-4">
-                <label htmlFor="email" className="font-semibold">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
-                  placeholder="Enter email address"
-                />
-              </div>
               <div className="flex flex-col w-full mb-4 ">
-                <label htmlFor="password" className="font-semibold">
-                  Password
+                <label htmlFor="oldPassword" className="font-semibold">
+                  Old Password
                 </label>
                 <div className="flex w-full relative">
                   <input
-                    type={isPasswordShow ? "text" : "password"}
-                    id="password"
-                    name="password"
+                    type={isOldPasswordShow ? "text" : "password"}
+                    id="oldPassword"
+                    name="oldPassword"
                     className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
-                    placeholder="Enter Password"
+                    placeholder="Enter old Password"
                     required
                   />
-                  {isPasswordShow ? (
+                  {isOldPasswordShow ? (
                     <IoEyeOff
                       className="text-gray-500 text-xl cursor-pointer absolute right-[20px] bottom-[20%]"
                       onClick={() => {
-                        setIsPasswordShow(!isPasswordShow);
+                        setIsOldPasswordShow(!isOldPasswordShow);
                       }}
                     />
                   ) : (
                     <IoEyeSharp
                       className="text-gray-500 text-xl cursor-pointer absolute right-[20px] bottom-[20%]"
                       onClick={() => {
-                        setIsPasswordShow(!isPasswordShow);
+                        setIsOldPasswordShow(!isOldPasswordShow);
                       }}
                     />
                   )}
                 </div>
               </div>
-              <Link
-                to="/forgot-password"
-                className="text-[#10A37F] text-right font-semibold"
-              >
-                Forgot the password?
-              </Link>
+              <div className="flex flex-col w-full mb-4 ">
+                <label htmlFor="newPassword" className="font-semibold">
+                  New Password
+                </label>
+                <div className="flex w-full relative">
+                  <input
+                    type={isNewPasswordShow ? "text" : "password"}
+                    id="newPassword"
+                    name="newPassword"
+                    className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
+                    placeholder="Enter new Password"
+                    required
+                  />
+                  {isNewPasswordShow ? (
+                    <IoEyeOff
+                      className="text-gray-500 text-xl cursor-pointer absolute right-[20px] bottom-[20%]"
+                      onClick={() => {
+                        setIsNewPasswordShow(!isNewPasswordShow);
+                      }}
+                    />
+                  ) : (
+                    <IoEyeSharp
+                      className="text-gray-500 text-xl cursor-pointer absolute right-[20px] bottom-[20%]"
+                      onClick={() => {
+                        setIsNewPasswordShow(!isNewPasswordShow);
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+
               <button className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8">
-                Login
+                Save
               </button>
-              <p className="text-center text-[#7E7E7E] mt-2">
-                Don't have an account?{" "}
-                <Link
-                  to="/signup"
-                  className="font-semibold text-[#FC7700] underline"
-                >
-                  Sign Up
-                </Link>
-              </p>
             </form>
           </div>
         </div>
