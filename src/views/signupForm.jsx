@@ -23,7 +23,7 @@ const SignUpForm = () => {
 
   return (
     <div
-      className="w-full flex justify-between h-[100vh] overflow-y-scroll p-3"
+      className="w-full flex justify-between h-[100vh] overflow-hidden p-3"
       style={{ scrollbarWidth: "none" }}
     >
       <div
@@ -151,7 +151,7 @@ const SignUpForm = () => {
         </div>
       </div>
 
-      <div className="w-5/12 md:flex hidden h-full bg-cover">
+      <div className="w-5/12 md:flex hidden h-full  bg-cover">
         <img
           src={SignUpFormImg}
           alt="SignUp img"
