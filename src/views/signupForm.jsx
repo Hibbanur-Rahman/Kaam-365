@@ -3,6 +3,7 @@ import SignUpFormImg from "../assets/images/signup-form-img.png";
 import Logo from "../assets/images/logo.svg";
 import { Link } from "react-router-dom";
 import { IoEyeSharp, IoEyeOff } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const SignUpForm = () => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -16,9 +17,13 @@ const SignUpForm = () => {
     { code: "+971", name: "UAE" },
     { code: "+86", name: "China" },
   ];
-
+  const navigate = useNavigate();
   const handleCountryCodeChange = (event) => {
     setSelectedCountryCode(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    navigate('/verifyCode');
   };
 
   return (
@@ -35,7 +40,7 @@ const SignUpForm = () => {
             <img src={Logo} alt="" className="w-[50px] h-[50px]" />
           </div>
         </div>
-        <div className="w-7/12">
+        <div className="md:w-7/12 w-full">
           <h1 className="font-bold text-2xl text-[#2A3980]">
             Sign Up for free
           </h1>
@@ -50,6 +55,7 @@ const SignUpForm = () => {
                 name="fullName"
                 className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
                 placeholder="Ex. Amar Jha."
+                required
               />
             </div>
             <div className="flex flex-col w-full mb-4">
@@ -62,6 +68,7 @@ const SignUpForm = () => {
                 name="companyName"
                 className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
                 placeholder="Ex. Oracle."
+                required
               />
             </div>
             <div className="flex flex-col w-full mb-4">
@@ -135,8 +142,18 @@ const SignUpForm = () => {
                 />
               </div>
             </div>
-            <button className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8">
-              Login
+            <div className="flex gap-[10px]">
+              <input type="checkbox" className="bg-[#10A37F]" />
+              <p className="text-black font-semibold">
+                Agree with{" "}
+                <Link className="text-[#10A37F] underline" to="#">
+                  {" "}
+                  Terms & Condition
+                </Link>
+              </p>
+            </div>
+            <button className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8" onClick={handleSubmit}>
+              Sign up
             </button>
             <p className="text-center text-[#7E7E7E] mt-2">
               Already have an account?{" "}

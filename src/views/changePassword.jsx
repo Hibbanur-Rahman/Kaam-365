@@ -9,7 +9,7 @@ import { Dialog } from "@material-tailwind/react";
 import { CiSearch } from "react-icons/ci";
 import { BsCheck2 } from "react-icons/bs";
 
-const SignIn = () => {
+const ChangePassword = () => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(null); // Update this to store the selected language
@@ -197,4 +197,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ChangePassword;
