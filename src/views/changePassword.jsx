@@ -8,6 +8,7 @@ import { IoEyeSharp, IoEyeOff } from "react-icons/io5";
 import { Dialog } from "@material-tailwind/react";
 import { CiSearch } from "react-icons/ci";
 import { BsCheck2 } from "react-icons/bs";
+import { HiOutlineXMark } from "react-icons/hi2";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const ChangePassword = () => {
   const [isNewPasswordShow, setIsNewPasswordShow] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(null); // Update this to store the selected language
+  const [success, setSuccess] = useState(false);
   const language = [
     "English",
     "Hindi",
@@ -40,6 +42,17 @@ const ChangePassword = () => {
     setSelectedLanguage(lang); // Set the selected language
   };
 
+  const handleSuccessModal = () => setSuccess(!success);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setSuccess(true);
+    } catch (error) {
+      console.log("Error in submitting the form:", error);
+    }
+  };
+
   return (
     <div className="w-full flex justify-between p-3 h-[100vh] overflow-hidden">
       <div
@@ -47,7 +60,10 @@ const ChangePassword = () => {
         style={{ scrollbarWidth: "none" }}
       >
         <div className="flex w-11/12 justify-between ">
-          <div className="rounded-full bg-white shadow-xl h-min w-min p-2 flex items-center justify-center cursor-pointer hover:bg-slate-50" onClick={()=>navigate('/signin')}>
+          <div
+            className="rounded-full bg-white shadow-xl h-min w-min p-2 flex items-center justify-center cursor-pointer hover:bg-slate-50"
+            onClick={() => navigate("/signin")}
+          >
             <HiChevronLeft className="text-3xl" />
           </div>
           <div
@@ -75,7 +91,10 @@ const ChangePassword = () => {
             <img src={Logo} alt="" className="w-[80px] h-[70px]" />
           </div>
           <div className="flex w-full">
-            <form className="w-full flex flex-col">
+            <form
+              className="w-full flex flex-col"
+              onSubmit={(e) => handleSubmit(e)}
+            >
               <div className="flex flex-col w-full mb-4 ">
                 <label htmlFor="oldPassword" className="font-semibold">
                   Old Password
@@ -137,7 +156,10 @@ const ChangePassword = () => {
                 </div>
               </div>
 
-              <button className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8">
+              <button
+                className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8"
+                onClick={(e) => handleSubmit(e)}
+              >
                 Save
               </button>
             </form>
@@ -151,6 +173,22 @@ const ChangePassword = () => {
           className="w-full h-full rounded-3xl object-fill"
         />
       </div>
+      <Dialog
+        open={success}
+        handler={handleSuccessModal}
+        className="md:max-w-[400px] md:min-w-[400px] lg:max-w-[400px] lg:min-w-[400px] 2xl:min-w-[400px] 2xl:max-w-[400px]  rounded-3xl bg-white flex flex-col items-center"
+      >
+        <div className="w-11/12 mt-3 flex justify-end">
+          <div className="rounded-full border-2 border-[#000] h-min w-min p-1 cursor-pointer hover:bg-gray-100" onClick={handleSuccessModal}>
+            <HiOutlineXMark className="text-xl text-black" />
+          </div>
+        </div>
+        <div className="w-full flex flex-col items-center justify-center h-full  mt-12 mb-16">
+        <h3 className="text-center text-2xl text-[#2A3980] font-semibold">Successful</h3>
+        <p className="text-center text-black">Password Changed<br/> Successfully</p>
+        </div>
+        
+      </Dialog>
       <Dialog open={open} handler={handleOpen} className="p-4 rounded-3xl">
         <div className="flex w-full relative">
           <input
