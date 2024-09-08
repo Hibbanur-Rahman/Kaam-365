@@ -5,6 +5,7 @@ import SignUpForm from "./views/signupForm";
 import VerifyCode from "./views/verifyCode";
 import ForgotPassword from "./views/forgotPassword";
 import ChangePassword from "./views/changePassword";
+import DashboardLayout from "./views/dashboard/dashboardLayout";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/verifyCode" element={<VerifyCode />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/dashboard/*" element={<DashboardLayout />} />
       </Routes>
     </div>
   );
