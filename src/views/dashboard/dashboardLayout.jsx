@@ -8,7 +8,7 @@ import TopBar from "../../components/topBar";
 
 const DashboardLayout = () => {
   return (
-    <div className="w-full h-[100vh] overflow-hidden flex">
+    <div className="w-full h-[100vh] overflow-hidden flex bg-[#F5F6FA]">
       <div className="w-2/12">
         <Sidebar />
       </div>

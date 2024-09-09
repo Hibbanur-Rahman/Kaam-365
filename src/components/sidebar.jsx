@@ -7,7 +7,7 @@ const Sidebar = () => {
   const location = useLocation();
 
   return (
-    <div className="w-full flex flex-col justify-between h-[100vh] shadow-xl">
+    <div className="w-full flex flex-col justify-between h-[100vh] shadow-xl bg-white">
       <div className="w-full">
         <div className="flex items-center justify-center gap-[10px] w-full mt-4">
           <div className="p-2 rounded-full shadow-lg w-[60px] h-[60px] flex justify-center items-center">
