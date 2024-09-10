@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   ListItem,
   Menu,
@@ -23,10 +24,22 @@ import { PiBellFill } from "react-icons/pi";
 const TopBar = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <div className="w-full flex py-2 items-center justify-between">
-      <h1 className="text-3xl font-semibold text-[#2A3980]">Dashboard</h1>
+      <h1 className="text-3xl font-semibold text-[#2A3980]">
+        {location.pathname == "/dashboard" || location.pathname === "/dashboard"
+          ? "Dashboard"
+          : ""}
+        {location.pathname == "/dashboard/jobs" || location.pathname === "/dashboard/jobs/"
+          ? "Jobs"
+          : ""}
+        {location.pathname == "/dashboard/post-jobs" || location.pathname === "/dashboard/post-jobs/"
+          ? "Post Jobs"
+          : ""}
+      </h1>
       <div className="relative w-8/12">
         <input
           type="text"

@@ -1,36 +1,17 @@
 import React, { useState } from "react";
 
-
 // Import react-circular-progressbar module and styles
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // import calendar styles
 
 import dashboardHeroImg from "../../assets/images/dashboard-hero-img.svg";
 import profileImg from "../../assets/images/profile-img.png";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
 
-import '../../assets/styles/dashboard.scss'
+import "../../assets/styles/dashboard.scss";
+
+import Calendar from "../../components/calendar";
 const Dashboard = () => {
-  const [value, setValue] = useState(new Date());
-  const [tasks, setTasks] = useState({});
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [taskInput, setTaskInput] = useState("");
-
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
-  };
-
-  const handleAddTask = () => {
-    const dateString = selectedDate.toDateString();
-    setTasks((prevTasks) => ({
-      ...prevTasks,
-      [dateString]: [...(prevTasks[dateString] || []), taskInput],
-    }));
-    setTaskInput(""); // reset input field
-  };
   return (
     <div
       className="w-full flex py-3 h-[100vh] overflow-y-scroll"
@@ -265,36 +246,9 @@ const Dashboard = () => {
       </div>
 
       {/** ========== calendar section =========== */}
-      <div className="w-5/12 flex justify-center px-4">
-        <div className="flex flex-col bg-white w-full px-3 pt-4">
-          <Calendar
-            onClickDay={handleDateClick}
-            value={value}
-            onChange={setValue}
-            className="bg-[#F4F5F7] w-full outline-none border-none rounded-lg"
-          />
-
-          {selectedDate && (
-            <div className="task-list">
-              <h2>Tasks for {selectedDate.toDateString()}</h2>
-
-              <ul>
-                {(tasks[selectedDate.toDateString()] || []).map(
-                  (task, index) => (
-                    <li key={index}>{task}</li>
-                  )
-                )}
-              </ul>
-
-              <input
-                type="text"
-                placeholder="Add a new task"
-                value={taskInput}
-                onChange={(e) => setTaskInput(e.target.value)}
-              />
-              <button onClick={handleAddTask}>Add Task</button>
-            </div>
-          )}
+      <div className="w-5/12 flex justify-center px-4 ">
+        <div className="flex flex-col bg-white h-max w-full px-3 pt-4 pb-4">
+          <Calendar />
         </div>
       </div>
     </div>
