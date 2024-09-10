@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
 import LoginImg from "../assets/images/login-side-img.png";
 import { HiChevronLeft } from "react-icons/hi2";
 import languageIcon from "../assets/images/language-icon.svg";
 import Logo from "../assets/images/logo.svg";
-import { Link } from "react-router-dom";
 import { IoEyeSharp, IoEyeOff } from "react-icons/io5";
 import { Dialog } from "@material-tailwind/react";
 import { CiSearch } from "react-icons/ci";
 import { BsCheck2 } from "react-icons/bs";
 
 const SignIn = () => {
+  const navigate=useNavigate();
   const [isPasswordShow, setIsPasswordShow] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(null); // Update this to store the selected language
@@ -120,7 +121,7 @@ const SignIn = () => {
               >
                 Forgot the password?
               </Link>
-              <button className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8">
+              <button className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8" onClick={()=>navigate('/dashboard')}>
                 Login
               </button>
               <p className="text-center text-[#7E7E7E] mt-2">
@@ -143,6 +144,9 @@ const SignIn = () => {
           className="w-full h-full rounded-3xl object-fill"
         />
       </div>
+
+
+
       <Dialog open={open} handler={handleOpen} className="p-4 rounded-3xl">
         <div className="flex w-full relative">
           <input

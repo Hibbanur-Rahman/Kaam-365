@@ -74,6 +74,21 @@ const TopBar = () => {
               <p className="font-semibold text-black text-sm ">Recent</p>
               <p className="font-semibold text-[#23A757] text-sm ">Clear all</p>
             </div>
+            <div className="w-full p-4  mt-4 bg-[#F6F8FF] flex justify-between gap-[30px] hover:outline-none cursor-pointer" onClick={()=>navigate('/complete-profile')}>
+              <div className="flex gap-[20px]">
+                <div className="rounded-full p-2 h-min bg-[rgba(175,184,228,0.47)]">
+                  <PiBellFill className="text-xl text-[#2A397E]" />
+                </div>
+                <p className="text-[#3A3A3A] text-sm ">
+                 Complete your Profile
+                </p>
+              </div>
+              <div className="">
+
+              <p className="text-gray-500 text-right">2m</p>
+              <p className="text-red-900 text-right">4 Remaining</p>
+              </div>
+            </div>
             <div className="w-full p-4  mt-4 bg-[#F6F8FF] flex justify-between gap-[30px] hover:outline-none">
               <div className="flex gap-[20px]">
                 <div className="rounded-full p-2 h-min bg-[rgba(175,184,228,0.47)]">

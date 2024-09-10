@@ -6,6 +6,7 @@ import VerifyCode from "./views/verifyCode";
 import ForgotPassword from "./views/forgotPassword";
 import ChangePassword from "./views/changePassword";
 import DashboardLayout from "./views/dashboard/dashboardLayout";
+import CompleteProfile from "./views/completeProfile";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/dashboard/*" element={<DashboardLayout />} />
+        <Route path="/complete-profile" element={<CompleteProfile />} />
       </Routes>
     </div>
   );
