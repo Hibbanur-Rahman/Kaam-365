@@ -5,14 +5,16 @@ import Jobs from "./jobs";
 import PostJobs from "./postJobs";
 import ApplicationStatus from "./applicationStatus";
 import TopBar from "../../components/topBar";
+import { useSelector } from "react-redux";
 
 const DashboardLayout = () => {
+  const openSidebar=useSelector((state)=>state.sidebar.openSidebar);
   return (
     <div className="w-full h-[100vh] overflow-hidden flex bg-[#F5F6FA]">
-      <div className="w-2/12">
+      <div className={`${openSidebar?'w-2/12':'w-auto'} transition-all duration-500`}>
         <Sidebar />
       </div>
-      <div className="flex flex-col py-3 px-6 w-10/12">
+      <div className={`flex flex-col py-3 px-6 ${openSidebar?'w-10/12':'w-full'}`}>
         <TopBar />
         <Routes>
           <Route path="/" element={<Dashboard />} />

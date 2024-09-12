@@ -30,7 +30,7 @@ const TopBar = () => {
   return (
     <div className="w-full flex py-2 items-center justify-between">
       <h1 className="text-3xl font-semibold text-[#2A3980]">
-        {location.pathname == "/dashboard" || location.pathname === "/dashboard"
+        {location.pathname == "/dashboard" || location.pathname === "/dashboard/"
           ? "Dashboard"
           : ""}
         {location.pathname == "/dashboard/jobs" || location.pathname === "/dashboard/jobs/"

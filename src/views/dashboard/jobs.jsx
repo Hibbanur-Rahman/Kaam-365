@@ -67,103 +67,6 @@ const customStyles = {
 
 
 const Jobs = () => {
-  const [selectedRows, setSelectedRows] = useState(false);
-  const [toggledClearRows, setToggleClearRows] = useState(false);
-  const [jobStatus, setJobStatus] = useState({}); // Managing toggle button state for each job by id
-
-  const handleChange = ({ selectedRows }) => {
-    setSelectedRows(selectedRows);
-  };
-
-  // Toggle the state so React Data Table changes to clearSelectedRows are triggered
-  const handleClearRows = () => {
-    setToggleClearRows(!toggledClearRows);
-  };
-
-  // Handling toggle for each row based on job id
-  const handleToggleStatus = (id) => {
-    setJobStatus((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id], // Toggle the state based on the job id
-    }));
-  };
-
-  const columns = [
-    {
-      name: "Job Title",
-      selector: (row) => row.title,
-      cell: (row) => (
-        <div className="flex items-center gap-[10px]">
-          <div className="flex h-max w-max rounded-lg bg-[#FFDDDD] p-2">
-            <img src={tableJobIcon} alt="" className="h-[20px] w-[20px]" />
-          </div>
-          <p className="text-base font-medium">{row.title}</p>
-        </div>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Location",
-      selector: (row) => row.location,
-      cell: (row) => (
-        <div className="flex items-center gap-[5px]">
-          <FaLocationDot className="text-lg text-yellow-500" />
-          <p className="text-sm font-medium">{row.location}</p>
-        </div>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Applications",
-      selector:(row)=>row.totalApplications,
-      cell: (row) => (
-        <div className="flex items-center gap-[5px]">
-          <p className="text-base font-medium">{row.totalApplications}</p>
-          <span className="bg-[#DEE0E8] text-[#23272C]  rounded-2xl px-3 text-xs font-medium py-1">
-            {row.newApplications} new
-          </span>
-        </div>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Status",
-      cell: (row) => (
-        <Switch
-          id={`custom-switch-${row.id}`} // Assign unique id for each switch
-          ripple={false}
-          className="h-full w-full checked:bg-[#10A37F]"
-          containerProps={{
-            className: "w-11 h-6",
-          }}
-          circleProps={{
-            className: "before:hidden left-0.5 border-none",
-          }}
-          checked={jobStatus[row.id] || false} // Check the status using the job id
-          onChange={() => handleToggleStatus(row.id)} // Toggle the status based on the job id
-        />
-      ),
-      sortable: false,
-    },
-    {
-      name: "Date",
-      selector: (row) => moment(row.date).format("MMM D, YYYY"),
-      cell:(row)=>(
-        <p className="font-medium text-base">{moment(row.date).format("MMM D, YYYY")}</p>
-      ),
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: () => (
-        <button className="text-gray-600">
-          <BsThreeDotsVertical className="text-xl text-[#969DA6]" />
-        </button>
-      ),
-      button: true,
-    },
-  ];
-
   const data = [
     {
       id: 1,
@@ -231,6 +134,112 @@ const Jobs = () => {
     },
     // Add more jobs as necessary
   ];
+  const [selectedRows, setSelectedRows] = useState(false);
+  const [toggledClearRows, setToggleClearRows] = useState(false);
+  // Initialize jobStatus with default value of true for all jobs
+  const [jobStatus, setJobStatus] = useState(() => {
+    const initialStatus = {};
+    data.forEach(job => {
+      initialStatus[job.id] = true; // Set default status to true
+    });
+    return initialStatus;
+  });
+
+  // Handling toggle for each row based on job id
+  const handleToggleStatus = (id) => {
+    setJobStatus((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id], // Toggle the state based on the job id
+    }));
+  };
+
+  const handleChange = ({ selectedRows }) => {
+    setSelectedRows(selectedRows);
+  };
+
+  // Toggle the state so React Data Table changes to clearSelectedRows are triggered
+  const handleClearRows = () => {
+    setToggleClearRows(!toggledClearRows);
+  };
+
+  
+
+  const columns = [
+    {
+      name: "Job Title",
+      selector: (row) => row.title,
+      cell: (row) => (
+        <div className="flex items-center gap-[10px]">
+          <div className="flex h-max w-max rounded-lg bg-[#FFDDDD] p-2">
+            <img src={tableJobIcon} alt="" className="h-[20px] w-[20px]" />
+          </div>
+          <p className="text-base font-medium">{row.title}</p>
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Location",
+      selector: (row) => row.location,
+      cell: (row) => (
+        <div className="flex items-center gap-[5px]">
+          <FaLocationDot className="text-lg text-yellow-500" />
+          <p className="text-sm font-medium">{row.location}</p>
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Applications",
+      selector:(row)=>row.totalApplications,
+      cell: (row) => (
+        <div className="flex items-center gap-[5px]">
+          <p className="text-base font-medium">{row.totalApplications}</p>
+          <span className="bg-[#DEE0E8] text-[#23272C]  rounded-2xl px-3 text-xs font-medium py-1">
+            {row.newApplications} new
+          </span>
+        </div>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Status",
+      cell: (row) => (
+        <Switch
+          id={`custom-switch-${row.id}`}
+          ripple={false}
+          className="h-full w-full checked:bg-[#10A37F]"
+          containerProps={{
+            className: "w-11 h-6",
+          }}
+          circleProps={{
+            className: "before:hidden left-0.5 border-none",
+          }}
+          checked={jobStatus[row.id]} // Default is true from state initialization
+          onChange={() => handleToggleStatus(row.id)} // Toggle the status based on the job id
+        />
+      ),
+      sortable: false,
+    },
+    {
+      name: "Date",
+      selector: (row) => moment(row.date).format("MMM D, YYYY"),
+      cell:(row)=>(
+        <p className="font-medium text-base">{moment(row.date).format("MMM D, YYYY")}</p>
+      ),
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: () => (
+        <button className="text-gray-600">
+          <BsThreeDotsVertical className="text-xl text-[#969DA6]" />
+        </button>
+      ),
+      button: true,
+    },
+  ];
+
 
   return (
     <div

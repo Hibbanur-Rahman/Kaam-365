@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import DataTable from "react-data-table-component";
 import { Dialog, DialogBody } from "@material-tailwind/react";
 import { TfiShareAlt } from "react-icons/tfi";
@@ -62,6 +63,8 @@ const customStyles = {
 };
 
 const ApplicationStatus = () => {
+  const dispatch = useDispatch();
+  const openSidebar = useSelector((state) => state.sidebar.openSidebar);
   const [selectedRows, setSelectedRows] = useState(false);
   const [toggledClearRows, setToggleClearRows] = useState(false);
   const [jobStatus, setJobStatus] = useState({}); // Managing toggle button state for each job by id
@@ -287,7 +290,7 @@ const ApplicationStatus = () => {
         </button>
       </div>
       <div className="flex gap-[20px] w-full mt-8">
-        <div className="w-full">
+        <div className={`${openSidebar ? "w-full" : "w-8/12"}`}>
           <DataTable
             title=""
             columns={columns}
@@ -298,12 +301,14 @@ const ApplicationStatus = () => {
             customStyles={customStyles}
           />
         </div>
-        {/* * ========== calendar section ===========
-        <div className="w-5/12 flex justify-center px-4 ">
-          <div className="flex flex-col bg-white h-max w-full px-3 pt-4 pb-4">
-            <Calendar />
+        {/* * ========== calendar section ===========*/}
+        {!openSidebar && (
+          <div className="w-4/12 flex justify-center px-4 ">
+            <div className="flex flex-col bg-white h-max w-full px-3 pt-4 pb-4">
+              {profileOpen ? <Profile/> : <Calendar />}
+            </div>
           </div>
-        </div> */}
+        )}
       </div>
 
       {/* Dialog to show the resume */}
@@ -320,182 +325,207 @@ const ApplicationStatus = () => {
       </Dialog>
 
       {/**Dialog for show profile */}
-      <Dialog
-        open={profileOpen}
-        handler={handleProfileDialog}
-        className="rounded-xl font-poppins overflow-scroll"
-        style={{ scrollbarWidth: "none" }}
-      >
-        <DialogBody className="font-poppins overflow-scroll h-[90vh]" style={{scrollbarWidth:'none'}}>
-          <div className="w-full p-2 py-4 rounded-2xl shadow-lg border">
-            <div className="w-full flex justify-between px-4 py-2">
-              <div className="flex gap-[10px] items-center">
-                <img
-                  src={profileImg}
-                  alt=""
-                  className="rounded-full h-[50px] w-[50px]"
-                />
-                <div className="">
-                  <h1 className="text-base font-medium text-[#000]">
-                    Rajesh Kumar
-                  </h1>
-                  <p className="text-[#ACACAC] text-[0.82rem] font-regular">
-                    Construction worker
-                  </p>
-                  <p className="text-[#4B5DB0] font-medium text-[0.82rem] cursor-pointer">
-                    View resume
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-[5px] items-center">
-                <div className="group h-min w-min bg-[rgba(175,184,228,0.47)] p-2 flex items-center justify-center rounded-full cursor-pointer">
-                  <BsFillChatLeftTextFill className="text-lg  text-[#2A397E]" />
-                </div>
-                <p className="text-base">Message</p>
-              </div>
-            </div>
+      {openSidebar ? (
+        <Dialog
+          open={profileOpen}
+          handler={handleProfileDialog}
+          className="rounded-xl font-poppins overflow-scroll"
+          style={{ scrollbarWidth: "none" }}
+        >
+          <DialogBody
+            className="font-poppins overflow-scroll h-[90vh]"
+            style={{ scrollbarWidth: "none" }}
+          >
+            <Profile/>
+          </DialogBody>
+        </Dialog>
+      ) : (
+        ""
+      )}
+    </div>
+  );
+};
 
-            <div className="flex w-full justify-end mt-4">
-              <div className="relative w-full max-w-[200px]">
-                <button
-                  onClick={toggleDropdown}
-                  className="w-full bg-white border-2 border-[#2A3980] text-[#2A3980] font-medium text-sm rounded-full px-4 py-2 flex justify-between items-center focus:outline-none"
-                >
-                  {selectedOption ? selectedOption.label : "Mark status as"}
-                  <svg
-                    className="w-4 h-4 text-[#2A3980]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+const Profile = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
+
+  const options = [
+    { value: "accepted", label: "Accepted" },
+    { value: "rejected", label: "Rejected" },
+    { value: "interview", label: "Schedule Interview" },
+  ];
+  return (
+    <div className="font-poppins w-full">
+      <div className="w-full p-2 py-4 rounded-2xl shadow-lg border">
+        <div className="w-full flex justify-between px-4 py-2">
+          <div className="flex gap-[10px] items-center">
+            <img
+              src={profileImg}
+              alt=""
+              className="rounded-full h-[50px] w-[50px]"
+            />
+            <div className="">
+              <h1 className="text-base font-medium text-[#000]">
+                Rajesh Kumar
+              </h1>
+              <p className="text-[#ACACAC] text-[0.82rem] font-regular">
+                Construction worker
+              </p>
+              <p className="text-[#4B5DB0] font-medium text-[0.82rem] cursor-pointer">
+                View resume
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-[5px] items-center">
+            <div className="group h-min w-min bg-[rgba(175,184,228,0.47)] p-2 flex items-center justify-center rounded-full cursor-pointer">
+              <BsFillChatLeftTextFill className="text-lg  text-[#2A397E]" />
+            </div>
+            <p className="text-base">Message</p>
+          </div>
+        </div>
+
+        <div className="flex w-full justify-end mt-4">
+          <div className="relative w-full max-w-[200px]">
+            <button
+              onClick={toggleDropdown}
+              className="w-full bg-white border-2 border-[#2A3980] text-[#2A3980] font-medium text-sm rounded-full px-4 py-2 flex justify-between items-center focus:outline-none"
+            >
+              {selectedOption ? selectedOption.label : "Mark status as"}
+              <svg
+                className="w-4 h-4 text-[#2A3980]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+
+            {isOpen && (
+              <ul className="absolute w-full mt-2 py-3 px-2 bg-white border rounded-lg shadow-lg z-10">
+                {options.map((option) => (
+                  <li
+                    key={option.value}
+                    onClick={() => handleOptionClick(option)}
+                    className={`px-4 py-2 text-center cursor-pointer ${
+                      option.value === "accepted"
+                        ? " bg-[#96FF85] text-black"
+                        : ""
+                    } ${
+                      option.value === "rejected"
+                        ? " bg-[rgba(237,0,0,0.7)] text-white"
+                        : ""
+                    } ${
+                      option.value === "interview"
+                        ? " bg-[rgba(75,93,176,0.4)] text-black"
+                        : ""
+                    } hover:bg-[#2A3980] hover:text-white text-sm rounded-lg`}
+                    style={{
+                      marginBottom: "8px", // Add custom margin
+                      padding: "8px 12px", // Add custom padding
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </button>
-
-                {isOpen && (
-                  <ul className="absolute w-full mt-2 py-3 px-2 bg-white border rounded-lg shadow-lg z-10">
-                    {options.map((option) => (
-                      <li
-                        key={option.value}
-                        onClick={() => handleOptionClick(option)}
-                        className={`px-4 py-2 text-center cursor-pointer ${
-                          option.value === "accepted"
-                            ? " bg-[#96FF85] text-black"
-                            : ""
-                        } ${
-                          option.value === "rejected"
-                            ? " bg-[rgba(237,0,0,0.7)] text-white"
-                            : ""
-                        } ${
-                          option.value === "interview"
-                            ? " bg-[rgba(75,93,176,0.4)] text-black"
-                            : ""
-                        } hover:bg-[#2A3980] hover:text-white text-sm rounded-lg`}
-                        style={{
-                          marginBottom: "8px", // Add custom margin
-                          padding: "8px 12px", // Add custom padding
-                        }}
-                      >
-                        {option.label}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+                    {option.label}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col w-full mt-8">
+        <p className="text-base font-medium text-[#2A3980]">Aadhar card</p>
+        <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-3">
+          <div className="flex gap-[10px]">
+            <BiSolidFilePdf className="text-4xl text-[#F54444]" />
+            <div className="">
+              <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
+              <p className="text-[#676767] text-xs">440 kb</p>
             </div>
           </div>
-          <div className="flex flex-col w-full mt-8">
-            <p className="text-base font-medium text-[#2A3980]">Aadhar card</p>
-            <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-3">
-              <div className="flex gap-[10px]">
-                <BiSolidFilePdf className="text-4xl text-[#F54444]" />
-                <div className="">
-                  <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
-                  <p className="text-[#676767] text-xs">440 kb</p>
-                </div>
-              </div>
-              <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
+          <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
+        </div>
+      </div>
+      <div className="flex flex-col w-full mt-4">
+        <p className="text-base font-medium text-[#2A3980]">Other documents</p>
+        <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
+          <div className="flex gap-[10px]">
+            <BiSolidFilePdf className="text-4xl text-[#F54444]" />
+            <div className="">
+              <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
+              <p className="text-[#676767] text-xs">440 kb</p>
             </div>
           </div>
-          <div className="flex flex-col w-full mt-4">
-            <p className="text-base font-medium text-[#2A3980]">
-              Other documents
+          <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
+        </div>
+        <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
+          <div className="flex gap-[10px]">
+            <BiSolidFilePdf className="text-4xl text-[#F54444]" />
+            <div className="">
+              <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
+              <p className="text-[#676767] text-xs">440 kb</p>
+            </div>
+          </div>
+          <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
+        </div>
+        <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
+          <div className="flex gap-[10px]">
+            <BiSolidFilePdf className="text-4xl text-[#F54444]" />
+            <div className="">
+              <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
+              <p className="text-[#676767] text-xs">440 kb</p>
+            </div>
+          </div>
+          <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
+        </div>
+      </div>
+      <div className="flex flex-col w-full mt-4">
+        <p className="text-base font-medium text-[#2A3980]">Skills</p>
+        <div className="flex gap-[15px] w-full flex-wrap my-2">
+          <div className="rounded-md bg-[rgba(151,151,151,0.16)] flex items-center justify-center px-6 py-1">
+            <p className="text-center text-base font-medium text-[#3A3A3A]">
+              Technical Skills
             </p>
-            <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
-              <div className="flex gap-[10px]">
-                <BiSolidFilePdf className="text-4xl text-[#F54444]" />
-                <div className="">
-                  <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
-                  <p className="text-[#676767] text-xs">440 kb</p>
-                </div>
-              </div>
-              <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
-            </div>
-            <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
-              <div className="flex gap-[10px]">
-                <BiSolidFilePdf className="text-4xl text-[#F54444]" />
-                <div className="">
-                  <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
-                  <p className="text-[#676767] text-xs">440 kb</p>
-                </div>
-              </div>
-              <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
-            </div>
-            <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
-              <div className="flex gap-[10px]">
-                <BiSolidFilePdf className="text-4xl text-[#F54444]" />
-                <div className="">
-                  <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
-                  <p className="text-[#676767] text-xs">440 kb</p>
-                </div>
-              </div>
-              <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
-            </div>
           </div>
-          <div className="flex flex-col w-full mt-4">
-            <p className="text-base font-medium text-[#2A3980]">Skills</p>
-            <div className="flex gap-[15px] w-full flex-wrap my-2">
-              <div className="rounded-md bg-[rgba(151,151,151,0.16)] flex items-center justify-center px-6 py-1">
-                <p className="text-center text-base font-medium text-[#3A3A3A]">
-                  Technical Skills
-                </p>
-              </div>
-              <div className="rounded-md bg-[rgba(151,151,151,0.16)] flex items-center justify-center px-6 py-1">
-                <p className="text-center text-base font-medium text-[#3A3A3A]">
-                  Mechanical Skills
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="w-full flex justify-between mt-4">
-            <div className="w-4/12">
-              <p className="text-base font-medium text-[#2A3980]">
-                Education
-              </p>
-              <p className="mt-2 text-sm font-medium text-[#3A3A3A]">MCU University</p>
-            </div>
-            <div className="w-8/12">
-              <p className="text-base font-medium text-[#2A3980]">
-                Gender
-              </p>
-              <p className="mt-2 text-sm font-medium text-[#3A3A3A]">Male</p>
-            </div>
-          </div>
-          <div className="flex flex-col w-full mt-4">
-            <p className="text-base font-medium text-[#2A3980]">
-              Email Id
+          <div className="rounded-md bg-[rgba(151,151,151,0.16)] flex items-center justify-center px-6 py-1">
+            <p className="text-center text-base font-medium text-[#3A3A3A]">
+              Mechanical Skills
             </p>
-            <p className="mt-1 text-sm font-medium text-[#3A3A3A]">tim.jennings@example.com</p>
-
           </div>
-        </DialogBody>
-      </Dialog>
+        </div>
+      </div>
+      <div className="w-full flex justify-between mt-4">
+        <div className="w-4/12">
+          <p className="text-base font-medium text-[#2A3980]">Education</p>
+          <p className="mt-2 text-sm font-medium text-[#3A3A3A]">
+            MCU University
+          </p>
+        </div>
+        <div className="w-8/12">
+          <p className="text-base font-medium text-[#2A3980]">Gender</p>
+          <p className="mt-2 text-sm font-medium text-[#3A3A3A]">Male</p>
+        </div>
+      </div>
+      <div className="flex flex-col w-full mt-4">
+        <p className="text-base font-medium text-[#2A3980]">Email Id</p>
+        <p className="mt-1 text-sm font-medium text-[#3A3A3A]">
+          tim.jennings@example.com
+        </p>
+      </div>
     </div>
   );
 };
