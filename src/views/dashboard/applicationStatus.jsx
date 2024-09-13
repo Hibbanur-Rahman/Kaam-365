@@ -6,13 +6,17 @@ import { TfiShareAlt } from "react-icons/tfi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6";
 import { BsFillChatLeftTextFill } from "react-icons/bs";
+import { BsChatLeftText } from "react-icons/bs";
 import profileImg from "../../assets/images/profile-img.png";
 import PDFObject from "pdfobject";
 import resumePdf from "../../assets/images/resume-pdf.pdf";
 import { HiXMark } from "react-icons/hi2";
 import { TbDownload } from "react-icons/tb";
 import { BiSolidFilePdf } from "react-icons/bi";
+import { RiVideoOnLine } from "react-icons/ri";
+import { HiOutlineXMark } from "react-icons/hi2";
 import Calendar from "../../components/calendar";
+
 // Custom styles for the DataTable
 const customStyles = {
   tableWrapper: {
@@ -304,8 +308,8 @@ const ApplicationStatus = () => {
         {/* * ========== calendar section ===========*/}
         {!openSidebar && (
           <div className="w-4/12 flex justify-center px-4 ">
-            <div className="flex flex-col bg-white h-max w-full px-3 pt-4 pb-4">
-              {profileOpen ? <Profile/> : <Calendar />}
+            <div className="flex flex-col bg-white rounded-xl h-max w-full px-3 pt-4 pb-4">
+              {profileOpen ? <Profile /> : <Calendar />}
             </div>
           </div>
         )}
@@ -336,7 +340,7 @@ const ApplicationStatus = () => {
             className="font-poppins overflow-scroll h-[90vh]"
             style={{ scrollbarWidth: "none" }}
           >
-            <Profile/>
+            <Profile />
           </DialogBody>
         </Dialog>
       ) : (
@@ -349,6 +353,9 @@ const ApplicationStatus = () => {
 const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+  const [interviewDate, setInterviewDate] = useState("2022-01-17"); // default date
+  const [interviewTime, setInterviewTime] = useState("10:00"); // default time
+  const [success, setSuccess] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -358,174 +365,400 @@ const Profile = () => {
   };
 
   const options = [
-    { value: "accepted", label: "Accepted" },
-    { value: "rejected", label: "Rejected" },
-    { value: "interview", label: "Schedule Interview" },
+    {
+      value: "accepted",
+      label: "Accepted",
+      message: `Congratulations!
+After we reviewed your application for the position of Factory worker, we congratulate you for being a part of us. After this you will be contacted personally by our team. Thank You...
+Greetings,
+Hiring Manager
+`,
+    },
+    {
+      value: "rejected",
+      label: "Rejected",
+      message: `We are sorry,
+After we have had an in-depth discussion about your application, we would like to convey that your profile is not suitable and you cannot become part of us. Good luck with your other applications.
+Greetings,
+Hiring Manager`,
+    },
+    {
+      value: "interview",
+      label: "Schedule Interview",
+      message: `Congratulations!
+After reviewing various internal discussions regarding this job ad, we would like to invite you for an interview on Monday, Jan 17,2022 at 10.00 am.
+Greetings,
+Hiring Manager`,
+      time: "17-02-2004",
+      date: "10:00 AM",
+    },
   ];
+
+  // Update the interview message whenever the date or time changes
+  useEffect(() => {
+    if (selectedOption && selectedOption.value === "interview") {
+      const updatedMessage = `Congratulations!
+After reviewing various internal discussions regarding this job ad, we would like to invite you for an interview on Monday, ${new Date(
+        interviewDate
+      ).toLocaleDateString()} at ${interviewTime}.
+Greetings,
+Hiring Manager`;
+      setSelectedOption((prev) => ({
+        ...prev,
+        message: updatedMessage,
+      }));
+    }
+  }, [interviewDate, interviewTime]);
+
+  const handleSubmitSendMessage = (e) => {
+    // Send the selected message to the server
+    // For demonstration purposes, we'll just log it to the console
+    e.preventDefault();
+    console.log(selectedOption.message);
+    setSuccess(!success);
+  };
+  const handleSuccessModal = () => setSuccess(!success);
   return (
-    <div className="font-poppins w-full">
-      <div className="w-full p-2 py-4 rounded-2xl shadow-lg border">
-        <div className="w-full flex justify-between px-4 py-2">
-          <div className="flex gap-[10px] items-center">
-            <img
-              src={profileImg}
-              alt=""
-              className="rounded-full h-[50px] w-[50px]"
-            />
-            <div className="">
-              <h1 className="text-base font-medium text-[#000]">
-                Rajesh Kumar
-              </h1>
-              <p className="text-[#ACACAC] text-[0.82rem] font-regular">
-                Construction worker
-              </p>
-              <p className="text-[#4B5DB0] font-medium text-[0.82rem] cursor-pointer">
-                View resume
-              </p>
+    <div className="font-poppins w-full flex justify-center">
+      {selectedOption ? (
+        <div className="w-11/12 flex flex-col font-poppins">
+          <div className="w-full border rounded-lg px-4 py-4">
+            <div className="w-full flex border-b pb-3 mb-4 justify-between">
+              <div className="flex gap-[10px] items-center">
+                <img
+                  src={profileImg}
+                  alt=""
+                  className="rounded-full h-[50px] w-[50px]"
+                />
+                <div className="">
+                  <h1 className="text-base font-medium text-[#000]">
+                    Rajesh Kumar
+                  </h1>
+                  <p className="text-[#ACACAC] text-[0.82rem] font-regular">
+                    Construction worker
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-[5px] items-center">
+                <div className="group h-min w-min bg-[#F0F3FF] p-2 flex items-center justify-center rounded-lg cursor-pointer">
+                  <BsChatLeftText className="text-lg  text-[#2A397E]" />
+                </div>
+                <div className="group h-min w-min bg-[#F0F3FF] p-2 flex items-center justify-center rounded-lg cursor-pointer">
+                  <RiVideoOnLine className="text-lg  text-[#2A397E]" />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-[5px] items-center">
-            <div className="group h-min w-min bg-[rgba(175,184,228,0.47)] p-2 flex items-center justify-center rounded-full cursor-pointer">
-              <BsFillChatLeftTextFill className="text-lg  text-[#2A397E]" />
-            </div>
-            <p className="text-base">Message</p>
-          </div>
-        </div>
-
-        <div className="flex w-full justify-end mt-4">
-          <div className="relative w-full max-w-[200px]">
-            <button
-              onClick={toggleDropdown}
-              className="w-full bg-white border-2 border-[#2A3980] text-[#2A3980] font-medium text-sm rounded-full px-4 py-2 flex justify-between items-center focus:outline-none"
-            >
-              {selectedOption ? selectedOption.label : "Mark status as"}
-              <svg
-                className="w-4 h-4 text-[#2A3980]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
+            <button className="w-full my-2 py-2 text-white rounded-3xl bg-[#4B5DB0]">
+              See resume
             </button>
+            <div className="relative w-full ">
+              <button
+                onClick={toggleDropdown}
+                className={`w-full relative bg-white border-2 ${
+                  selectedOption.value === "accepted"
+                    ? "border-[#23A757] text-[#23A757]"
+                    : "border-[#2A3980] text-[#2A3980]"
+                } ${
+                  selectedOption.value === "rejected"
+                    ? "border-[#DA1414] text-[#DA1414]"
+                    : ""
+                } ${
+                  selectedOption.value === "interview"
+                    ? "border-[#2A3980] text-[#2A3980]"
+                    : ""
+                }  font-medium text-sm  rounded-full px-4 py-2 flex justify-between items-center focus:outline-none`}
+              >
+                <p className="w-full text-center">
+                  {" "}
+                  {selectedOption ? selectedOption.label : "Mark status as"}
+                </p>
+                <svg
+                  className={`w-4 h-4 ${
+                    selectedOption.value === "accepted"
+                      ? "border-[#23A757] text-[#23A757]"
+                      : "border-[#2A3980] text-[#2A3980]"
+                  } ${
+                    selectedOption.value === "rejected"
+                      ? "border-[#DA1414] text-[#DA1414]"
+                      : ""
+                  } ${
+                    selectedOption.value === "interview"
+                      ? "border-[#2A3980] text-[#2A3980]"
+                      : ""
+                  } absolute right-[20px]`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
 
-            {isOpen && (
-              <ul className="absolute w-full mt-2 py-3 px-2 bg-white border rounded-lg shadow-lg z-10">
-                {options.map((option) => (
-                  <li
-                    key={option.value}
-                    onClick={() => handleOptionClick(option)}
-                    className={`px-4 py-2 text-center cursor-pointer ${
-                      option.value === "accepted"
-                        ? " bg-[#96FF85] text-black"
-                        : ""
-                    } ${
-                      option.value === "rejected"
-                        ? " bg-[rgba(237,0,0,0.7)] text-white"
-                        : ""
-                    } ${
-                      option.value === "interview"
-                        ? " bg-[rgba(75,93,176,0.4)] text-black"
-                        : ""
-                    } hover:bg-[#2A3980] hover:text-white text-sm rounded-lg`}
-                    style={{
-                      marginBottom: "8px", // Add custom margin
-                      padding: "8px 12px", // Add custom padding
-                    }}
-                  >
-                    {option.label}
-                  </li>
-                ))}
-              </ul>
+              {isOpen && (
+                <ul className="absolute w-full mt-2 py-3 px-2 bg-white border rounded-lg shadow-lg z-10">
+                  {options.map((option) => (
+                    <li
+                      key={option.value}
+                      onClick={() => handleOptionClick(option)}
+                      className={`px-4 py-2 text-center cursor-pointer ${
+                        option.value === "accepted"
+                          ? " bg-[#96FF85] text-black"
+                          : ""
+                      } ${
+                        option.value === "rejected"
+                          ? " bg-[rgba(237,0,0,0.7)] text-white"
+                          : ""
+                      } ${
+                        option.value === "interview"
+                          ? " bg-[rgba(75,93,176,0.4)] text-black"
+                          : ""
+                      } hover:bg-[#2A3980] hover:text-white text-sm rounded-lg`}
+                      style={{
+                        marginBottom: "8px", // Add custom margin
+                        padding: "8px 12px", // Add custom padding
+                      }}
+                    >
+                      {option.label}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>{" "}
+            {selectedOption.value === "interview" && (
+              <div className="flex w-full border-t-2 mt-4 justify-between gap-[15px] py-4">
+                <input
+                  type="date"
+                  className="w-6/12 rounded-3xl border-2 border-[#4B5DB0] text-[#4B5DB0] py-1 px-4"
+                  value={interviewDate}
+                  onChange={(e) => setInterviewDate(e.target.value)}
+                />
+                <input
+                  type="time"
+                  className="w-6/12 rounded-3xl border-2 border-[#4B5DB0] text-[#4B5DB0] py-1 px-4"
+                  value={interviewTime}
+                  onChange={(e) => setInterviewTime(e.target.value)}
+                />
+              </div>
             )}
           </div>
+          <form
+            
+            method='post'
+            className="w-full mt-4"
+            onSubmit={(e)=>handleSubmitSendMessage(e)}
+          >
+            <p className="text-base text-[#3A3A3A]">
+              Message<span className="text-[#DA1414] text-xl">*</span>
+            </p>
+            <textarea
+              name=""
+              id=""
+              value={selectedOption.message}
+              className="h-[180px] mt-3 resize-none border-2 border-[#B7B7B7] text-[#3A3A3A] text-sm rounded-xl w-full focus:outline-none py-4 px-2"
+              style={{ scrollbarWidth: "none" }}
+            ></textarea>
+            <button className="w-full my-2 py-2 text-white rounded-3xl bg-[#10A37F]" onClick={(e)=>handleSubmitSendMessage(e)}>
+              Send to applications
+            </button>
+          </form>
+          <Dialog
+            open={success}
+            handler={handleSuccessModal}
+            className="md:max-w-[400px] md:min-w-[400px] lg:max-w-[400px] lg:min-w-[400px] 2xl:min-w-[400px] 2xl:max-w-[400px]  rounded-3xl bg-white flex flex-col items-center"
+          >
+            <div className="w-11/12 mt-3 flex justify-end">
+              <div
+                className="rounded-full border-2 border-[#000] h-min w-min p-1 cursor-pointer hover:bg-gray-100"
+                onClick={handleSuccessModal}
+              >
+                <HiOutlineXMark className="text-xl text-black" />
+              </div>
+            </div>
+            <div className="w-full flex flex-col items-center justify-center h-full  mt-12 mb-16">
+              <h3 className="text-center text-2xl text-[#2A3980] font-semibold">
+                Successful!
+              </h3>
+              <p className="text-center text-black">
+              Notification have been sent to applicants
+               
+              </p>
+            </div>
+          </Dialog>
         </div>
-      </div>
-      <div className="flex flex-col w-full mt-8">
-        <p className="text-base font-medium text-[#2A3980]">Aadhar card</p>
-        <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-3">
-          <div className="flex gap-[10px]">
-            <BiSolidFilePdf className="text-4xl text-[#F54444]" />
-            <div className="">
-              <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
-              <p className="text-[#676767] text-xs">440 kb</p>
+      ) : (
+        <div className="w-full">
+          <div className="w-full p-2 py-4 rounded-2xl shadow-lg border">
+            <div className="w-full flex justify-between px-4 py-2 ">
+              <div className="flex gap-[10px] items-center">
+                <img
+                  src={profileImg}
+                  alt=""
+                  className="rounded-full h-[50px] w-[50px]"
+                />
+                <div className="">
+                  <h1 className="text-base font-medium text-[#000]">
+                    Rajesh Kumar
+                  </h1>
+                  <p className="text-[#ACACAC] text-[0.82rem] font-regular">
+                    Construction worker
+                  </p>
+                  <p className="text-[#4B5DB0] font-medium text-[0.82rem] cursor-pointer">
+                    View resume
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-[5px] items-center">
+                <div className="group h-min w-min bg-[rgba(175,184,228,0.47)] p-2 flex items-center justify-center rounded-full cursor-pointer">
+                  <BsFillChatLeftTextFill className="text-lg  text-[#2A397E]" />
+                </div>
+                <p className="text-base">Message</p>
+              </div>
+            </div>
+
+            <div className="flex w-full justify-end mt-4">
+              <div className="relative w-full max-w-[200px]">
+                <button
+                  onClick={toggleDropdown}
+                  className="w-full bg-white border-2 border-[#2A3980] text-[#2A3980] font-medium text-sm rounded-full px-4 py-2 flex justify-between items-center focus:outline-none"
+                >
+                  {selectedOption ? selectedOption.label : "Mark status as"}
+                  <svg
+                    className="w-4 h-4 text-[#2A3980]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </button>
+
+                {isOpen && (
+                  <ul className="absolute w-full mt-2 py-3 px-2 bg-white border rounded-lg shadow-lg z-10">
+                    {options.map((option) => (
+                      <li
+                        key={option.value}
+                        onClick={() => handleOptionClick(option)}
+                        className={`px-4 py-2 text-center cursor-pointer ${
+                          option.value === "accepted"
+                            ? " bg-[#96FF85] text-black"
+                            : ""
+                        } ${
+                          option.value === "rejected"
+                            ? " bg-[rgba(237,0,0,0.7)] text-white"
+                            : ""
+                        } ${
+                          option.value === "interview"
+                            ? " bg-[rgba(75,93,176,0.4)] text-black"
+                            : ""
+                        } hover:bg-[#2A3980] hover:text-white text-sm rounded-lg`}
+                        style={{
+                          marginBottom: "8px", // Add custom margin
+                          padding: "8px 12px", // Add custom padding
+                        }}
+                      >
+                        {option.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
-          <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
-        </div>
-      </div>
-      <div className="flex flex-col w-full mt-4">
-        <p className="text-base font-medium text-[#2A3980]">Other documents</p>
-        <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
-          <div className="flex gap-[10px]">
-            <BiSolidFilePdf className="text-4xl text-[#F54444]" />
-            <div className="">
-              <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
-              <p className="text-[#676767] text-xs">440 kb</p>
+          <div className="flex flex-col w-full mt-8">
+            <p className="text-base font-medium text-[#2A3980]">Aadhar card</p>
+            <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-3">
+              <div className="flex gap-[10px]">
+                <BiSolidFilePdf className="text-4xl text-[#F54444]" />
+                <div className="">
+                  <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
+                  <p className="text-[#676767] text-xs">440 kb</p>
+                </div>
+              </div>
+              <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
             </div>
           </div>
-          <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
-        </div>
-        <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
-          <div className="flex gap-[10px]">
-            <BiSolidFilePdf className="text-4xl text-[#F54444]" />
-            <div className="">
-              <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
-              <p className="text-[#676767] text-xs">440 kb</p>
+          <div className="flex flex-col w-full mt-4">
+            <p className="text-base font-medium text-[#2A3980]">
+              Other documents
+            </p>
+            <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
+              <div className="flex gap-[10px]">
+                <BiSolidFilePdf className="text-4xl text-[#F54444]" />
+                <div className="">
+                  <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
+                  <p className="text-[#676767] text-xs">440 kb</p>
+                </div>
+              </div>
+              <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
+            </div>
+            <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
+              <div className="flex gap-[10px]">
+                <BiSolidFilePdf className="text-4xl text-[#F54444]" />
+                <div className="">
+                  <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
+                  <p className="text-[#676767] text-xs">440 kb</p>
+                </div>
+              </div>
+              <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
+            </div>
+            <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
+              <div className="flex gap-[10px]">
+                <BiSolidFilePdf className="text-4xl text-[#F54444]" />
+                <div className="">
+                  <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
+                  <p className="text-[#676767] text-xs">440 kb</p>
+                </div>
+              </div>
+              <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
             </div>
           </div>
-          <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
-        </div>
-        <div className="w-full flex justify-between items-center bg-[#F8F8F8] rounded-lg shadow-sm p-3 my-2">
-          <div className="flex gap-[10px]">
-            <BiSolidFilePdf className="text-4xl text-[#F54444]" />
-            <div className="">
-              <p className=" text-[#676767] text-sm">Aadharcard005.pdf</p>
-              <p className="text-[#676767] text-xs">440 kb</p>
+          <div className="flex flex-col w-full mt-4">
+            <p className="text-base font-medium text-[#2A3980]">Skills</p>
+            <div className="flex gap-[15px] w-full flex-wrap my-2">
+              <div className="rounded-md bg-[rgba(151,151,151,0.16)] flex items-center justify-center px-6 py-1">
+                <p className="text-center text-base font-medium text-[#3A3A3A]">
+                  Technical Skills
+                </p>
+              </div>
+              <div className="rounded-md bg-[rgba(151,151,151,0.16)] flex items-center justify-center px-6 py-1">
+                <p className="text-center text-base font-medium text-[#3A3A3A]">
+                  Mechanical Skills
+                </p>
+              </div>
             </div>
           </div>
-          <TbDownload className="cursor-pointer text-3xl text-[#23A757]" />
-        </div>
-      </div>
-      <div className="flex flex-col w-full mt-4">
-        <p className="text-base font-medium text-[#2A3980]">Skills</p>
-        <div className="flex gap-[15px] w-full flex-wrap my-2">
-          <div className="rounded-md bg-[rgba(151,151,151,0.16)] flex items-center justify-center px-6 py-1">
-            <p className="text-center text-base font-medium text-[#3A3A3A]">
-              Technical Skills
+          <div className="w-full flex justify-between mt-4">
+            <div className="w-4/12">
+              <p className="text-base font-medium text-[#2A3980]">Education</p>
+              <p className="mt-2 text-sm font-medium text-[#3A3A3A]">
+                MCU University
+              </p>
+            </div>
+            <div className="w-8/12">
+              <p className="text-base font-medium text-[#2A3980]">Gender</p>
+              <p className="mt-2 text-sm font-medium text-[#3A3A3A]">Male</p>
+            </div>
+          </div>
+          <div className="flex flex-col w-full mt-4">
+            <p className="text-base font-medium text-[#2A3980]">Email Id</p>
+            <p className="mt-1 text-sm font-medium text-[#3A3A3A]">
+              tim.jennings@example.com
             </p>
           </div>
-          <div className="rounded-md bg-[rgba(151,151,151,0.16)] flex items-center justify-center px-6 py-1">
-            <p className="text-center text-base font-medium text-[#3A3A3A]">
-              Mechanical Skills
-            </p>
-          </div>
         </div>
-      </div>
-      <div className="w-full flex justify-between mt-4">
-        <div className="w-4/12">
-          <p className="text-base font-medium text-[#2A3980]">Education</p>
-          <p className="mt-2 text-sm font-medium text-[#3A3A3A]">
-            MCU University
-          </p>
-        </div>
-        <div className="w-8/12">
-          <p className="text-base font-medium text-[#2A3980]">Gender</p>
-          <p className="mt-2 text-sm font-medium text-[#3A3A3A]">Male</p>
-        </div>
-      </div>
-      <div className="flex flex-col w-full mt-4">
-        <p className="text-base font-medium text-[#2A3980]">Email Id</p>
-        <p className="mt-1 text-sm font-medium text-[#3A3A3A]">
-          tim.jennings@example.com
-        </p>
-      </div>
+      )}
     </div>
   );
 };
