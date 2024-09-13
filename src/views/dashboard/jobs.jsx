@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { TfiShareAlt } from "react-icons/tfi";
 import { TiPlus } from "react-icons/ti";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -67,6 +68,7 @@ const customStyles = {
 
 
 const Jobs = () => {
+  const navigate=useNavigate();
   const data = [
     {
       id: 1,
@@ -264,7 +266,7 @@ const Jobs = () => {
           <TfiShareAlt />
           Import
         </button>
-        <button className="bg-[#10A37F] gap-[10px] text-white text-base flex items-center justify-center py-1 px-8 rounded-lg h-min">
+        <button className="bg-[#10A37F] gap-[10px] text-white text-base flex items-center justify-center py-1 px-8 rounded-lg h-min" onClick={()=>navigate('/dashboard/create-vacancy')}>
           <TiPlus />
           Add Vacancy
         </button>

@@ -42,7 +42,7 @@ const Sidebar = () => {
             </li>
             <li
               className={`flex p-3  w-full ${
-                location.pathname === "/dashboard/jobs"
+                location.pathname === "/dashboard/jobs" || location.pathname==='/dashboard/create-vacancy'
                   ? "px-4 border-l-[6px] border-[#2A3980] bg-[#E2E7FF] text-[#2A3980]"
                   : "px-6"
               } hover:bg-[#e2e2f560] cursor-pointer hover:text-[#2A3980] transition duration-300 font-medium`}

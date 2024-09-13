@@ -4,6 +4,7 @@ import Dashboard from "./dashboard";
 import Jobs from "./jobs";
 import PostJobs from "./postJobs";
 import ApplicationStatus from "./applicationStatus";
+import CreateVacancy from "./createVacancy";
 import TopBar from "../../components/topBar";
 import { useSelector } from "react-redux";
 
@@ -21,6 +22,7 @@ const DashboardLayout = () => {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/post-jobs" element={<PostJobs />} />
           <Route path="/application-status" element={<ApplicationStatus />} />
+          <Route path='/create-vacancy' element={<CreateVacancy/>}/>
         </Routes>
       </div>
     </div>
