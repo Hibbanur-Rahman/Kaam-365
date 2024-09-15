@@ -408,12 +408,12 @@ const SearchCandidate = () => {
           </div>
           <div className="w-full flex justify-end">
             <div className="flex items-center gap-[15px]">
-              <p className="text-[#A59898]" onClick={handleOpen}>
+              <p className="text-[#A59898]" onClick={handleOpenFilterModal}>
                 Cancel
               </p>
               <button
                 className="bg-[#10A37F] rounded-2xl text-white px-8 py-1"
-                onClick={handleOpen}
+                onClick={()=>navigate('/dashboard/search-candidate-result')}
               >
                 Apply
               </button>
