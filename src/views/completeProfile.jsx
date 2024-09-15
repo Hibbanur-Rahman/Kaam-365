@@ -7,7 +7,7 @@ const CompleteProfile = () => {
   return (
     <div className="w-full flex flex-col items-center p-5">
       <div className="flex justify-start w-full">
-        <div className="p-2 rounded-full shadow-lg w-[60px] h-[60px] flex justify-center items-center  mb-8">
+        <div className="p-2 rounded-full shadow-lg w-[60px] h-[60px] flex justify-center items-center  mb-8 cursor-pointer" onClick={()=>navigate('/dashboard')}>
           <img src={Logo} alt="" className="w-[50px] h-[50px]" />
         </div>
       </div>

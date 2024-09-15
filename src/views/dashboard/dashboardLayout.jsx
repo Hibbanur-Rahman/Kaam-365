@@ -7,6 +7,7 @@ import ApplicationStatus from "./applicationStatus";
 import CreateVacancy from "./createVacancy";
 import TopBar from "../../components/topBar";
 import { useSelector } from "react-redux";
+import SearchCandidate from "./searchCandidate";
 
 const DashboardLayout = () => {
   const openSidebar=useSelector((state)=>state.sidebar.openSidebar);
@@ -23,6 +24,7 @@ const DashboardLayout = () => {
           <Route path="/post-jobs" element={<PostJobs />} />
           <Route path="/application-status" element={<ApplicationStatus />} />
           <Route path='/create-vacancy' element={<CreateVacancy/>}/>
+          <Route path='/search-candidate' element={<SearchCandidate/>}/>
         </Routes>
       </div>
     </div>

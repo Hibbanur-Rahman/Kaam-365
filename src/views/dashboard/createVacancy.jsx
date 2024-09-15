@@ -7,9 +7,9 @@ const CreateVacancy = () => {
       className="w-full flex flex-col items-center h-[100vh] overflow-y-scroll"
       style={{ scrollbarWidth: "none" }}
     >
-      <h1 className="w-full text-2xl font-semibold text-[#2A3980]">
+      {/* <h1 className="w-full text-2xl font-semibold text-[#2A3980]">
         Create Vacancy
-      </h1>
+      </h1> */}
       <form
         action=""
         className="bg-white rounded-xl shadow-md p-6 py-6 w-full mt-6"

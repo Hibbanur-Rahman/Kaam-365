@@ -29,18 +29,37 @@ const TopBar = () => {
 
   return (
     <div className="w-full flex py-2 items-center justify-between">
-      <h1 className="text-3xl font-semibold text-[#2A3980]">
-        {location.pathname == "/dashboard" || location.pathname === "/dashboard/"
+      <h1
+        className={`${
+          location.pathname == "/dashboard/create-vacancy" ||
+          location.pathname === "/dashboard/create-vacancy/"
+            ? "text-2xl"
+            : "text-3xl"
+        } font-semibold text-[#2A3980]`}
+      >
+        {location.pathname == "/dashboard" ||
+        location.pathname === "/dashboard/"
           ? "Dashboard"
           : ""}
-        {location.pathname == "/dashboard/jobs" || location.pathname === "/dashboard/jobs/"
+        {location.pathname == "/dashboard/jobs" ||
+        location.pathname === "/dashboard/jobs/"
           ? "Jobs"
           : ""}
-        {location.pathname == "/dashboard/post-jobs" || location.pathname === "/dashboard/post-jobs/"
+        {location.pathname == "/dashboard/create-vacancy" ||
+        location.pathname === "/dashboard/create-vacancy/"
+          ? "Create vacancy"
+          : ""}
+        {location.pathname == "/dashboard/post-jobs" ||
+        location.pathname === "/dashboard/post-jobs/"
           ? "Post Jobs"
           : ""}
+        {location.pathname == "/dashboard/search-candidate" ||
+        location.pathname === "/dashboard/search-candidate/"
+          ? "Candidate Search"
+          : ""}
       </h1>
-      <div className="relative w-8/12">
+      {
+        location.pathname!=='/dashboard/search-candidate' &&  <div className="relative w-8/12" onClick={()=>navigate('/dashboard/search-candidate')}>
         <input
           type="text"
           placeholder="Search by name, position"
@@ -48,6 +67,8 @@ const TopBar = () => {
         />
         <CiSearch className="text-gray-500 text-xl cursor-pointer absolute right-[20px] bottom-[20%]" />
       </div>
+      }
+     
       <div className="flex items-center gap-[20px]">
         <Menu
           open={isNotificationOpen}
@@ -74,19 +95,19 @@ const TopBar = () => {
               <p className="font-semibold text-black text-sm ">Recent</p>
               <p className="font-semibold text-[#23A757] text-sm ">Clear all</p>
             </div>
-            <div className="w-full p-4  mt-4 bg-[#F6F8FF] flex justify-between gap-[30px] hover:outline-none cursor-pointer" onClick={()=>navigate('/complete-profile')}>
+            <div
+              className="w-full p-4  mt-4 bg-[#F6F8FF] flex justify-between gap-[30px] hover:outline-none cursor-pointer"
+              onClick={() => navigate("/complete-profile")}
+            >
               <div className="flex gap-[20px]">
                 <div className="rounded-full p-2 h-min bg-[rgba(175,184,228,0.47)]">
                   <PiBellFill className="text-xl text-[#2A397E]" />
                 </div>
-                <p className="text-[#3A3A3A] text-sm ">
-                 Complete your Profile
-                </p>
+                <p className="text-[#3A3A3A] text-sm ">Complete your Profile</p>
               </div>
               <div className="">
-
-              <p className="text-gray-500 text-right">2m</p>
-              <p className="text-red-900 text-right">4 Remaining</p>
+                <p className="text-gray-500 text-right">2m</p>
+                <p className="text-red-900 text-right">4 Remaining</p>
               </div>
             </div>
             <div className="w-full p-4  mt-4 bg-[#F6F8FF] flex justify-between gap-[30px] hover:outline-none">
