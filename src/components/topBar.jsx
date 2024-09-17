@@ -26,6 +26,7 @@ const TopBar = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const [openMenu, setOpenMenu] = useState(false);
 
   return (
     <div className="w-full flex py-2 items-center justify-between">
@@ -58,17 +59,20 @@ const TopBar = () => {
           ? "Candidate Search"
           : ""}
       </h1>
-      {
-        location.pathname!=='/dashboard/search-candidate' &&  <div className="relative w-8/12" onClick={()=>navigate('/dashboard/search-candidate')}>
-        <input
-          type="text"
-          placeholder="Search by name, position"
-          className="w-full p-2 px-3 rounded-xl border outline-none placeholder:text-black"
-        />
-        <CiSearch className="text-gray-500 text-xl cursor-pointer absolute right-[20px] bottom-[20%]" />
-      </div>
-      }
-     
+      {location.pathname !== "/dashboard/search-candidate" && (
+        <div
+          className="relative w-8/12"
+          onClick={() => navigate("/dashboard/search-candidate")}
+        >
+          <input
+            type="text"
+            placeholder="Search by name, position"
+            className="w-full p-2 px-3 rounded-xl border outline-none placeholder:text-black"
+          />
+          <CiSearch className="text-gray-500 text-xl cursor-pointer absolute right-[20px] bottom-[20%]" />
+        </div>
+      )}
+
       <div className="flex items-center gap-[20px]">
         <Menu
           open={isNotificationOpen}
@@ -152,8 +156,21 @@ const TopBar = () => {
             </div>
           </MenuList>
         </Menu>
-        <div className="group relative h-min w-min hover:bg-[rgba(175,184,228,0.47)] p-2 rounded-full cursor-pointer" onClick={()=>navigate('/dashboard/message')}>
-          <BsFillChatLeftTextFill className="text-2xl text-[#BBBBBB] group-hover:text-[#2A397E]" />
+        <div
+          className={`group relative h-min w-min hover:bg-[rgba(175,184,228,0.47)] ${
+            location.pathname === "/dashboard/message"
+              ? "bg-[rgba(175,184,228,0.47)]"
+              : ""
+          } p-2 rounded-full cursor-pointer`}
+          onClick={() => navigate("/dashboard/message")}
+        >
+          <BsFillChatLeftTextFill
+            className={`text-2xl  group-hover:text-[#2A397E] ${
+              location.pathname === "/dashboard/message"
+                ? "text-[#2A397E]"
+                : "text-[#BBBBBB]"
+            }`}
+          />
         </div>
 
         <Menu
@@ -178,7 +195,10 @@ const TopBar = () => {
             </ListItem>
           </MenuHandler>
           <MenuList className="flex rounded-xl md:flex flex-col w-[400px] ">
-            <MenuItem className="flex justify-between items-center py-3">
+            <MenuItem
+              className="flex justify-between items-center py-3"
+              onClick={() => navigate("/complete-profile")}
+            >
               <div className="flex gap-[10px] items-center">
                 <div className="rounded-full bg-[#f2f2fb] p-2 h-min">
                   <CiUser className="text-2xl text-[#2A3980]" />
@@ -192,7 +212,7 @@ const TopBar = () => {
               </div>
               <FaChevronRight />
             </MenuItem>
-            <MenuItem className="flex justify-between items-center py-3">
+            {/* <MenuItem className="flex justify-between items-center py-3">
               <div className="flex gap-[10px] items-center">
                 <div className="rounded-full bg-[#f2f2fb] p-2 h-min">
                   <HiInformationCircle className="text-2xl text-[#2A3980]" />
@@ -203,8 +223,38 @@ const TopBar = () => {
                 </div>
               </div>
               <FaChevronRight />
-            </MenuItem>
-            <MenuItem className="flex justify-between items-center py-3">
+            </MenuItem> */}
+            <Menu
+              placement="right-start"
+              open={openMenu}
+              handler={setOpenMenu}
+              allowHover
+              offset={15}
+            >
+              <MenuHandler className="flex items-center justify-between">
+                <MenuItem className="flex justify-between items-center py-3">
+                  <div className="flex gap-[10px] items-center">
+                    <div className="rounded-full bg-[#f2f2fb] p-2 h-min">
+                      <HiInformationCircle className="text-2xl text-[#2A3980]" />
+                    </div>
+                    <div className="">
+                      <h1 className="text-semibold text-lg text-black">Help</h1>
+                      <p className="text-gray-500">Manage your saved account</p>
+                    </div>
+                  </div>
+                  <FaChevronRight />
+                </MenuItem>
+              </MenuHandler>
+              <MenuList>
+                <MenuItem>Nested Item 1</MenuItem>
+                <MenuItem>Nested Item 2</MenuItem>
+                <MenuItem>Nested Item 3</MenuItem>
+              </MenuList>
+            </Menu>
+            <MenuItem
+              className="flex justify-between items-center py-3"
+              onClick={() => navigate("/change-password")}
+            >
               <div className="flex gap-[10px] items-center">
                 <div className="rounded-full bg-[#f2f2fb] p-2 h-min">
                   <BsShieldCheck className="text-2xl text-[#2A3980]" />

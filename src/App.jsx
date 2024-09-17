@@ -7,6 +7,8 @@ import ForgotPassword from "./views/forgotPassword";
 import ChangePassword from "./views/changePassword";
 import DashboardLayout from "./views/dashboard/dashboardLayout";
 import CompleteProfile from "./views/completeProfile";
+import TermsAndCondition from "./views/termsAndCondition";
+import PrivacyPolicy from "./views/privacyPolicy";
 
 const App = () => {
   return (
@@ -21,6 +23,9 @@ const App = () => {
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/dashboard/*" element={<DashboardLayout />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/terms-and-condition" element={<TermsAndCondition />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
       </Routes>
     </div>
   );

@@ -62,7 +62,7 @@ const ChangePassword = () => {
         <div className="flex w-11/12 justify-between ">
           <div
             className="rounded-full bg-white shadow-xl h-min w-min p-2 flex items-center justify-center cursor-pointer hover:bg-slate-50"
-            onClick={() => navigate("/signin")}
+            onClick={() => navigate("/dashboard")}
           >
             <HiChevronLeft className="text-3xl" />
           </div>
