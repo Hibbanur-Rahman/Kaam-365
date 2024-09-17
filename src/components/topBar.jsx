@@ -152,7 +152,7 @@ const TopBar = () => {
             </div>
           </MenuList>
         </Menu>
-        <div className="group relative h-min w-min hover:bg-[rgba(175,184,228,0.47)] p-2 rounded-full cursor-pointer">
+        <div className="group relative h-min w-min hover:bg-[rgba(175,184,228,0.47)] p-2 rounded-full cursor-pointer" onClick={()=>navigate('/dashboard/message')}>
           <BsFillChatLeftTextFill className="text-2xl text-[#BBBBBB] group-hover:text-[#2A397E]" />
         </div>
 
