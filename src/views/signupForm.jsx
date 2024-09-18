@@ -4,6 +4,8 @@ import Logo from "../assets/images/logo.svg";
 import { Link } from "react-router-dom";
 import { IoEyeSharp, IoEyeOff } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const SignUpForm = () => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -17,13 +19,36 @@ const SignUpForm = () => {
     { code: "+971", name: "UAE" },
     { code: "+86", name: "China" },
   ];
+
+  const [userDetails, setUserDetails] = useState({
+    mobileNumber: "",
+    clientName: "",
+    email: "",
+    password: "",
+    firstName: "hibban",
+    lastName: "rahman",
+    fullName: "",
+  });
+
   const navigate = useNavigate();
   const handleCountryCodeChange = (event) => {
     setSelectedCountryCode(event.target.value);
   };
 
-  const handleSubmit = () => {
-    navigate('/verifyCode');
+  const handleInputChange = (e) => {
+    setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response=await axios.post(`${import.meta.env.VITE_API_URL}/authms/auth/client-admin-signup`,userDetails);
+      console.log(response);
+    } catch (error) {
+      console.log("Error in SignUp:",error);
+      toast.error("Failed to SignUp")
+    }
+   
   };
 
   return (
@@ -44,7 +69,7 @@ const SignUpForm = () => {
           <h1 className="font-bold text-2xl text-[#2A3980]">
             Sign Up for free
           </h1>
-          <form action="" className="w-full flex flex-col mt-8 mb-8">
+          <form onSubmit={(e)=>handleSubmit(e)} className="w-full flex flex-col mt-8 mb-8">
             <div className="flex flex-col w-full mb-4">
               <label htmlFor="fullName" className="font-semibold">
                 Full Name
@@ -56,6 +81,8 @@ const SignUpForm = () => {
                 className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
                 placeholder="Ex. Amar Jha."
                 required
+                onChange={(e) => handleInputChange(e)}
+                value={userDetails.fullName}
               />
             </div>
             <div className="flex flex-col w-full mb-4">
@@ -65,10 +92,12 @@ const SignUpForm = () => {
               <input
                 type="text"
                 id="companyName"
-                name="companyName"
+                name="clientName"
                 className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
                 placeholder="Ex. Oracle."
                 required
+                onChange={(e) => handleInputChange(e)}
+                value={userDetails.clientName}
               />
             </div>
             <div className="flex flex-col w-full mb-4">
@@ -82,6 +111,8 @@ const SignUpForm = () => {
                 required
                 className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
                 placeholder="example@gmail.com"
+                onChange={(e) => handleInputChange(e)}
+                value={userDetails.email}
               />
             </div>
             <div className="flex flex-col w-full mb-4 ">
@@ -96,6 +127,8 @@ const SignUpForm = () => {
                   className="rounded-xl p-3 bg-[#F6F6F6] w-full max-w-full outline-none focus:border mt-2"
                   placeholder="***************"
                   required
+                  onChange={(e) => handleInputChange(e)}
+                  value={userDetails.password}
                 />
                 {isPasswordShow ? (
                   <IoEyeOff
@@ -139,6 +172,8 @@ const SignUpForm = () => {
                   placeholder="9****826519"
                   pattern="[0-9]{10}"
                   maxLength={10} // Limit input to 10 digits
+                  onChange={(e) => handleInputChange(e)}
+                  value={userDetails.mobileNumber}
                 />
               </div>
             </div>
@@ -146,13 +181,19 @@ const SignUpForm = () => {
               <input type="checkbox" className="bg-[#10A37F]" />
               <p className="text-black font-semibold">
                 Agree with{" "}
-                <Link className="text-[#10A37F] underline" to="#">
+                <Link
+                  className="text-[#10A37F] underline"
+                  to="/terms-and-condition"
+                >
                   {" "}
                   Terms & Condition
                 </Link>
               </p>
             </div>
-            <button className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8" onClick={handleSubmit}>
+            <button
+              className="bg-[#10A37F] text-lg text-white rounded-full p-3 w-full max-w-full mt-8"
+              onClick={(e)=>handleSubmit(e)}
+            >
               Sign up
             </button>
             <p className="text-center text-[#7E7E7E] mt-2">

@@ -26,7 +26,7 @@ const TopBar = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const [openMenu, setOpenMenu] = useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   return (
     <div className="w-full flex py-2 items-center justify-between">
@@ -212,27 +212,16 @@ const TopBar = () => {
               </div>
               <FaChevronRight />
             </MenuItem>
-            {/* <MenuItem className="flex justify-between items-center py-3">
-              <div className="flex gap-[10px] items-center">
-                <div className="rounded-full bg-[#f2f2fb] p-2 h-min">
-                  <HiInformationCircle className="text-2xl text-[#2A3980]" />
-                </div>
-                <div className="">
-                  <h1 className="text-semibold text-lg text-black">Help</h1>
-                  <p className="text-gray-500">Manage your saved account</p>
-                </div>
-              </div>
-              <FaChevronRight />
-            </MenuItem> */}
+           
             <Menu
               placement="right-start"
-              open={openMenu}
-              handler={setOpenMenu}
+              open={isOpenMenu}
+              handler={setIsOpenMenu}
               allowHover
               offset={15}
             >
               <MenuHandler className="flex items-center justify-between">
-                <MenuItem className="flex justify-between items-center py-3">
+                <MenuItem className={`flex justify-between items-center py-3 ${isOpenMenu?'bg-[#f2f2fb]':'bg-[#f2f2fb]'}`}>
                   <div className="flex gap-[10px] items-center">
                     <div className="rounded-full bg-[#f2f2fb] p-2 h-min">
                       <HiInformationCircle className="text-2xl text-[#2A3980]" />
@@ -245,10 +234,45 @@ const TopBar = () => {
                   <FaChevronRight />
                 </MenuItem>
               </MenuHandler>
-              <MenuList>
-                <MenuItem>Nested Item 1</MenuItem>
-                <MenuItem>Nested Item 2</MenuItem>
-                <MenuItem>Nested Item 3</MenuItem>
+              <MenuList className="flex rounded-xl md:flex flex-col w-[400px]">
+                <MenuItem className="flex justify-between items-center py-3">
+                  <div className="flex gap-[10px] items-center">
+                    <div className="">
+                      <h1 className="text-semibold text-sm text-black">FAQ</h1>
+                    </div>
+                  </div>
+                  <FaChevronRight />
+                </MenuItem>
+                <MenuItem className="flex justify-between items-center py-3" onClick={()=>navigate('/terms-and-condition')}>
+                  <div className="flex gap-[10px] items-center">
+                    <div className="">
+                      <h1 className="text-semibold text-sm text-black">
+                        Terms & Conditions
+                      </h1>
+                    </div>
+                  </div>
+                  <FaChevronRight />
+                </MenuItem>
+                <MenuItem className="flex justify-between items-center py-3"  onClick={()=>navigate('/privacy-policy')}>
+                  <div className="flex gap-[10px] items-center">
+                    <div className="">
+                      <h1 className="text-semibold text-sm text-black">
+                        Privacy Policy
+                      </h1>
+                    </div>
+                  </div>
+                  <FaChevronRight />
+                </MenuItem>
+                <MenuItem className="flex justify-between items-center py-3">
+                  <div className="flex gap-[10px] items-center">
+                    <div className="">
+                      <h1 className="text-semibold text-sm text-black">
+                        Contact Us
+                      </h1>
+                    </div>
+                  </div>
+                  <FaChevronRight />
+                </MenuItem>
               </MenuList>
             </Menu>
             <MenuItem
@@ -297,6 +321,14 @@ const TopBar = () => {
               <FaChevronRight />
             </MenuItem>
           </MenuList>
+        </Menu>
+        <Menu
+          open={isProfileMenuOpen}
+          handler={setIsProfileMenuOpen}
+          placement="bottom"
+          allowHover={true}
+        >
+
         </Menu>
       </div>
     </div>

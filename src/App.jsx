@@ -9,6 +9,7 @@ import DashboardLayout from "./views/dashboard/dashboardLayout";
 import CompleteProfile from "./views/completeProfile";
 import TermsAndCondition from "./views/termsAndCondition";
 import PrivacyPolicy from "./views/privacyPolicy";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -25,8 +26,8 @@ const App = () => {
         <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="/terms-and-condition" element={<TermsAndCondition />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-
       </Routes>
+      <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
 };
