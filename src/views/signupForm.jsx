@@ -44,6 +44,9 @@ const SignUpForm = () => {
     try {
       const response=await axios.post(`${import.meta.env.VITE_API_URL}/authms/auth/client-admin-signup`,userDetails);
       console.log(response);
+      if(response.status==201){
+        toast.success("Client Admin Signed Up Successfully");
+      }
     } catch (error) {
       console.log("Error in SignUp:",error);
       toast.error("Failed to SignUp")
