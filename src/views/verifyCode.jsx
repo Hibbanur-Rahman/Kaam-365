@@ -1,9 +1,11 @@
 import React, { useState, useRef } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link,useNavigate,useLocation } from "react-router-dom";
 import { HiChevronLeft } from "react-icons/hi2";
 import verifyCodeImg from "../assets/images/verify-code-img.png";
 import LoaderGif from "../assets/images/Circle-loader.gif";
 import successGif from "../assets/images/success-gif.gif";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const VerifyCode = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
@@ -12,6 +14,9 @@ const VerifyCode = () => {
   const [success, setSuccess] = useState(false);
 
   const navigate=useNavigate();
+  const location=useLocation();
+  const {email,password}=location.state||{};
+  
   // Handle change in OTP input fields
   const handleChange = (e, index) => {
     const value = e.target.value;
@@ -34,10 +39,27 @@ const VerifyCode = () => {
     }
   };
 
-  const handleSubmit = () => {
-    console.log("Submit button clicked", otp.join(""));
-    setLoading(true);
-    // setSuccess(true);
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try{
+      setLoading(true);
+      const response=await axios.post(`${import.meta.env.VITE_API_URL}/authms/auth/confirm-otp`,{
+        email:email,
+        OTP:otp.join(""),
+        password:password
+      });
+      if(response.status==200){
+        toast.success("Otp Verified");
+        setLoading(false);
+        setSuccess(true);
+      }
+      console.log("Submit button clicked", otp.join(""));
+     
+    }catch(error){
+      console.log("Error in verifying Opt:",error);
+      toast.error("Failed to Verify Otp");
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,11 +94,11 @@ const VerifyCode = () => {
             <p className="text-gray-600 text-center">
               Please enter the code we just sent to your email
             </p>
-            <p className="text-[#EC8B09] text-center">RohitKumar@gmail.com</p>
+            <p className="text-[#EC8B09] text-center">{email}</p>
 
             <form
               className="w-full flex flex-col mt-10"
-              onSubmit={handleSubmit}
+              onSubmit={(e)=>handleSubmit(e)}
             >
               <div className="flex items-center justify-center gap-3">
                 {otp.map((digit, index) => (
